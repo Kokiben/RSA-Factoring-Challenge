@@ -1,47 +1,43 @@
-#include <unistd.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
 
-void factoring(int n)
+void factorize(int num)
 {
-int j;
-for (j = 2; j <= n / 2; ++j)
-{
-if (n % j == 0)
-{
-printf("%d=%d*%d\n", n, j, n / j);
+int i;
+for (i = 2; i <= num / 2; ++i) {
+if (num % i == 0) {
+printf("%d=%d*%d\n", num, i, num / i);
 return;
 }
 }
-printf("%d=%d*%d\n", n, 1, n);
+printf("%d=%d*%d\n", num, 1, num);
 }
 
 int main(int argc, char *argv[])
 {
-if (argc != 2)
-{
-printf("Usage: %s <fil>\n", argv[0]);
+if (argc != 2) {
+printf("Usage: %s <file>\n", argv[0]);
 return (1);
 }
 
-FILE *fil = fopen(argv[1], "r");
-if (fil == NULL)
-{
-perror("Error open file");
+FILE *file = fopen(argv[1], "r");
+if (file == NULL) {
+perror("Error opening the file");
 return (1);
 }
 
-signal(SIGALRM, SIG_IGN);
+signal(SIGALRM, SIG_IGN); 
 
-alarm(5);
+alarm(5); 
 
-int n;
-while (fscanf(fil, "%d", &n) == 1)
+int num;
+while (fscanf(file, "%d", &num) == 1)
 {
-factoring(n);
+factorize(num);
 }
 
-fclose(fil);
+fclose(file);
 return (0);
 }
